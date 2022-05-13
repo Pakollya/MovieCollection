@@ -1,7 +1,8 @@
-package com.pakollya.moviecollection
+package com.pakollya.moviecollection.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.pakollya.moviecollection.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
