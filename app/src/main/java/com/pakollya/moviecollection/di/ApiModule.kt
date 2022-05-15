@@ -3,7 +3,8 @@ package com.pakollya.moviecollection.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.pakollya.moviecollection.BASE_URL
-import com.pakollya.moviecollection.data.api.ApiService
+import com.pakollya.moviecollection.data.api.Api
+import com.pakollya.moviecollection.data.api.MovieApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -37,5 +38,8 @@ class ApiModule {
             .build()
 
     @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+
+    @Provides
+    fun provideMovieApiService(api: Api) = MovieApiService(api)
 }
