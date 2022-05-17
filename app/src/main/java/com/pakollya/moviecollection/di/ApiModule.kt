@@ -17,18 +17,15 @@ import javax.inject.Singleton
 @Module
 class ApiModule {
     @Provides
-    @Singleton
     fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
-    @Singleton
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
     @Provides
-    @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)

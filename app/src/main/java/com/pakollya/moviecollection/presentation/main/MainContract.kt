@@ -6,7 +6,7 @@ import com.pakollya.moviecollection.presentation.BaseContract
 interface MainContract {
 
     interface View : BaseContract.View {
-        fun showMovies(movies: List<Movie?>?)
+        fun showMovies(movies: List<Movie>)
     }
 
     interface Presenter : BaseContract.Presenter<View?> {

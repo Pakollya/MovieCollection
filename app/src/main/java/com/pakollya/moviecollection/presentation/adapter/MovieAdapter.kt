@@ -8,7 +8,8 @@ import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.api.Movie
 import com.pakollya.moviecollection.presentation.viewholder.MovieViewHolder
 
-class MovieAdapter(context: Context, list: MutableList<Movie>): BaseAdapter<Movie, MovieViewHolder>(context, list) {
+class MovieAdapter(context: Context, list: List<Movie>):
+    BaseAdapter<Movie, MovieViewHolder>(context, list as MutableList<Movie>) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(DataBindingUtil.inflate(
