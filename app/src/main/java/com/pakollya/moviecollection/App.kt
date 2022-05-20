@@ -1,11 +1,8 @@
 package com.pakollya.moviecollection
 
 import android.app.Application
-import com.pakollya.moviecollection.di.ApiModule
-import com.pakollya.moviecollection.di.InteractorModule
-import com.pakollya.moviecollection.di.PresenterModule
-import com.pakollya.moviecollection.di.RepositoryModule
 import com.pakollya.moviecollection.di.component.*
+import com.pakollya.moviecollection.di.module.*
 
 class App: Application() {
 
@@ -13,10 +10,19 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initDagger()
+    }
+
+    fun initDagger() {
         val apiComponent = DaggerApiComponent.builder().apiModule(ApiModule()).build()
 
-        val repositoryComponent = DaggerRepositoryComponent.builder()
+        val pagingSourceComponent = DaggerPagingSourceComponent.builder()
             .apiComponent(apiComponent)
+            .pagingSourceModule(PagingSourceModule())
+            .build()
+
+        val repositoryComponent = DaggerRepositoryComponent.builder()
+            .pagingSourceComponent(pagingSourceComponent)
             .repositoryModule(RepositoryModule())
             .build()
 
@@ -30,5 +36,4 @@ class App: Application() {
             .presenterModule(PresenterModule())
             .build()
     }
-
 }

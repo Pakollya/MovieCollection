@@ -1,18 +1,22 @@
 package com.pakollya.moviecollection.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.rxjava2.flowable
+import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
 import com.pakollya.moviecollection.data.api.Movie
-import com.pakollya.moviecollection.data.api.MovieApiService
-import io.reactivex.Single
+import io.reactivex.Flowable
 
-class MovieListRepository(private val apiService: MovieApiService) {
-    fun getMovies(apiKey: String, offset: Int): Single<List<Movie>> {
-        return apiService.getAllMovies(apiKey, offset)
-            .flatMap{ movieResponse ->
-                return@flatMap if (movieResponse.isSuccessful) {
-                        Single.just(movieResponse.body()?.results)
-                    } else {
-                        Single.error(Exception("Network error code: ${movieResponse.code()}"))
-                    }
-        }
-    }
+class MovieListRepository(private val moviePagingSource: MoviePagingSource) {
+
+    fun getMovies(): Flowable<PagingData<Movie>> =
+        Pager(
+            config = PagingConfig(
+                initialLoadSize = NETWORK_PAGE_SIZE,
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = 1),
+            pagingSourceFactory = {moviePagingSource}
+        ).flowable
 }

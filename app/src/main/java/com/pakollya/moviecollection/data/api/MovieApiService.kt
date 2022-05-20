@@ -19,5 +19,4 @@ class MovieApiService(val api: Api) {
                 .retry(RETRY_ATTEMPTS)
             }
         )
-
 }

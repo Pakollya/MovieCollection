@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingData
 import com.pakollya.moviecollection.App
 import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.api.Movie
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), MainContract.View {
 
     @Inject
-    lateinit var presenter: MainContract.Presenter
+    private lateinit var presenter: MainContract.Presenter
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +27,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         presenter.getMovies()
     }
 
-    override fun showMovies(movies: List<Movie>) {
-        val adapter = MovieAdapter(this, movies)
+    override fun showMovies(movies: PagingData<Movie>) {
+        val adapter = MovieAdapter()
         binding.movieList.adapter = adapter
+        adapter.submitData(this.lifecycle, movies)
     }
 
     override fun getContext(): Context = this

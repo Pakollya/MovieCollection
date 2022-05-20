@@ -1,15 +1,15 @@
 package com.pakollya.moviecollection.presentation.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.api.Movie
 import com.pakollya.moviecollection.presentation.viewholder.MovieViewHolder
 
-class MovieAdapter(context: Context, list: List<Movie>):
-    BaseAdapter<Movie, MovieViewHolder>(context, list as MutableList<Movie>) {
+class MovieAdapter: PagingDataAdapter<Movie, MovieViewHolder>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(DataBindingUtil.inflate(
@@ -20,9 +20,20 @@ class MovieAdapter(context: Context, list: List<Movie>):
         ))
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        super.onBindViewHolder(holder, position)
-        holder.bind(list[position])
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
-    override fun getItemCount() = list.size
+    companion object {
+        val DIFF_UTIL = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.title == newItem.title
+            }
+
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }

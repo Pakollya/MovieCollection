@@ -1,4 +1,4 @@
-package com.pakollya.moviecollection.presentation
+package com.pakollya.moviecollection.presentation.base
 
 import io.reactivex.disposables.CompositeDisposable
 import java.lang.ref.WeakReference

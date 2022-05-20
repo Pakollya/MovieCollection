@@ -1,4 +1,4 @@
-package com.pakollya.moviecollection.presentation
+package com.pakollya.moviecollection.presentation.base
 
 import android.content.Context
 
