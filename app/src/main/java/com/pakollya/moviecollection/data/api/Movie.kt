@@ -14,7 +14,11 @@ data class Movie(
 
     @SerializedName("multimedia")
     val imageLink: ImageLink
-)
+) {
+    fun getImageUrl() = imageLink.src
+
+    fun getMovieUrl() = movieLink.url
+}
 
 data class MovieLink(val type: String, val url: String, val suggested_link_text: String)
 

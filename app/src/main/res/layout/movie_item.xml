@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.pakollya.moviecollection.data.api.Movie" />
+        <variable
+            name="movie"
+            type="Movie" />
+    </data>
     
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -22,12 +29,13 @@
             
             <ImageView
                 android:id="@+id/image_movie"
-                android:layout_width="70dp"
+                android:layout_width="157dp"
                 android:layout_height="105dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                app:imageFromUrl="@{movie.imageUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -46,6 +54,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:textSize="20sp"
                 android:textColor="@color/white"
+                android:text="@{movie.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
@@ -59,15 +68,18 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:layout_gravity="top"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="16sp"
                 android:textColor="@color/secondary_text"
                 android:singleLine="false"
+                android:text="@{movie.summary}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_movie"
                 app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:text="Summary"
                 />
             
