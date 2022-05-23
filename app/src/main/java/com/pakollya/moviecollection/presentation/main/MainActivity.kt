@@ -16,7 +16,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), MainContract.View {
 
     @Inject
-    private lateinit var presenter: MainContract.Presenter
+    lateinit var presenter: MainContract.Presenter
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
