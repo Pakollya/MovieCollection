@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.pakollya.moviecollection.R
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.presentation.viewholder.MovieViewHolder
 
 class MovieAdapter: PagingDataAdapter<Movie, MovieViewHolder>(DIFF_UTIL) {

@@ -1,7 +1,7 @@
 package com.pakollya.moviecollection.domain
 
 import androidx.paging.PagingData
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.data.repository.MovieListRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers

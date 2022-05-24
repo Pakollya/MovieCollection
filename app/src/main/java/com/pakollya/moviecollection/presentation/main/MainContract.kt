@@ -1,7 +1,7 @@
 package com.pakollya.moviecollection.presentation.main
 
 import androidx.paging.PagingData
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.presentation.base.BaseContract
 
 interface MainContract {

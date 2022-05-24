@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.rxjava2.flowable
 import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import io.reactivex.Flowable
 
 class MovieListRepository(private val moviePagingSource: MoviePagingSource) {

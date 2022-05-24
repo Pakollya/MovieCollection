@@ -5,7 +5,7 @@ import androidx.paging.rxjava2.RxPagingSource
 import com.pakollya.moviecollection.API_KEY
 import com.pakollya.moviecollection.INITIAL_LOAD_OFFSET
 import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.data.api.MovieApiService
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

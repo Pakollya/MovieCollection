@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingData
 import com.pakollya.moviecollection.App
 import com.pakollya.moviecollection.R
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityMainBinding
 import com.pakollya.moviecollection.di.component.PresenterComponent
 import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
