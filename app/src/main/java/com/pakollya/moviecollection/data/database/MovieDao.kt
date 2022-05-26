@@ -11,7 +11,7 @@ import com.pakollya.moviecollection.data.database.entity.MovieRemoteKey
 @Dao
 interface MovieDao{
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAllMovies(movies: List<Movie>)
 
     @Query("SELECT * FROM movie ORDER BY id ASC")
@@ -30,8 +30,8 @@ interface MovieRemoteKeyDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllKeys(remoteKeys: List<MovieRemoteKey>)
 
-    @Query("SELECT * FROM movie_remote_key WHERE movieId = :movieId")
-    fun getMovieById(movieId: Int): MovieRemoteKey?
+    @Query("SELECT * FROM movie_remote_key WHERE movieName = :movieName")
+    fun getKeyByMovieId(movieName: String): MovieRemoteKey?
 
     @Query("DELETE FROM movie_remote_key")
     fun clearAllKeys()

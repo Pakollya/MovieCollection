@@ -1,13 +1,14 @@
 package com.pakollya.moviecollection.data.database.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 import com.pakollya.moviecollection.data.database.ImageLinkConverter
 import com.pakollya.moviecollection.data.database.MovieLinkConverter
 
-@Entity(tableName = "movie")
+@Entity(tableName = "movie", indices = [Index(value = ["title"], unique = true)])
 data class Movie(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
@@ -49,7 +50,7 @@ data class ImageLink(val src: String?)
 @Entity(tableName = "movie_remote_key")
 data class MovieRemoteKey(
     @PrimaryKey
-    val movieId: Long,
+    val movieName: String,
     val prevKey: Int?,
     val nextKey: Int?
 )
