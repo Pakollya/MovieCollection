@@ -4,19 +4,21 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import com.pakollya.moviecollection.App
 import com.pakollya.moviecollection.R
-import com.pakollya.moviecollection.data.api.Movie
+import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityMainBinding
 import com.pakollya.moviecollection.di.component.PresenterComponent
 import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
 import javax.inject.Inject
 
+@ExperimentalPagingApi
 class MainActivity : AppCompatActivity(), MainContract.View {
 
     @Inject
-    private lateinit var presenter: MainContract.Presenter
+    lateinit var presenter: MainContract.Presenter
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun getContext(): Context = this
 }
 
+@ExperimentalPagingApi
 val Context.presenterComponent: PresenterComponent
     get() = when(this) {
         is App -> presenterComponent

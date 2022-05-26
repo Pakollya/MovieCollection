@@ -1,5 +1,7 @@
 package com.pakollya.moviecollection
 
+const val DATABASE_NAME = "movie-db"
+
 const val BASE_URL = "https://api.nytimes.com/svc/movies/v2/"
 
 const val REQUEST_REVIEWS_ALL = "reviews/all.json"
