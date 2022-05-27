@@ -8,7 +8,8 @@ import com.pakollya.moviecollection.di.module.*
 @ExperimentalPagingApi
 class App: Application() {
 
-    lateinit var presenterComponent: PresenterComponent
+    lateinit var mainPresenterComponent: MainPresenterComponent
+    lateinit var detailPresenterComponent: DetailPresenterComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -42,9 +43,14 @@ class App: Application() {
             .interactorModule(InteractorModule())
             .build()
 
-        presenterComponent = DaggerPresenterComponent.builder()
+        mainPresenterComponent = DaggerMainPresenterComponent.builder()
             .interactorComponent(interactorComponent)
-            .presenterModule(PresenterModule())
+            .mainPresenterModule(MainPresenterModule())
+            .build()
+
+        detailPresenterComponent = DaggerDetailPresenterComponent.builder()
+            .interactorComponent(interactorComponent)
+            .detailPresenterModule(DetailPresenterModule())
             .build()
     }
 }
