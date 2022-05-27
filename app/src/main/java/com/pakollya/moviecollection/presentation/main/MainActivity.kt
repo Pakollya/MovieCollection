@@ -3,6 +3,7 @@ package com.pakollya.moviecollection.presentation.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
@@ -13,12 +14,11 @@ import com.pakollya.moviecollection.databinding.ActivityMainBinding
 import com.pakollya.moviecollection.di.component.MainPresenterComponent
 import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
 import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemClickListener
-import com.pakollya.moviecollection.presentation.base.BaseActivity
 import com.pakollya.moviecollection.presentation.detail.DetailActivity
 import javax.inject.Inject
 
 @ExperimentalPagingApi
-class MainActivity : BaseActivity(), MainContract.View {
+class MainActivity : AppCompatActivity(), MainContract.View {
 
     @Inject
     lateinit var mainPresenter: MainContract.Presenter
@@ -33,6 +33,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setActionBar(binding.toolbar)
         mainPresenterComponent.inject(this)
         mainPresenter.attachWithView(this)
         mainPresenter.getMovies()

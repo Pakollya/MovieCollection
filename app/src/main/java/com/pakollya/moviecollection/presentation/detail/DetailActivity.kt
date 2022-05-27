@@ -3,6 +3,7 @@ package com.pakollya.moviecollection.presentation.detail
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
 import com.pakollya.moviecollection.App
@@ -10,11 +11,10 @@ import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityDetailBinding
 import com.pakollya.moviecollection.di.component.DetailPresenterComponent
-import com.pakollya.moviecollection.presentation.base.BaseActivity
 import javax.inject.Inject
 
 @ExperimentalPagingApi
-class DetailActivity : BaseActivity(), DetailContract.View {
+class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     @Inject
     lateinit var detailPresenter: DetailContract.Presenter
@@ -38,6 +38,20 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     }
 
     override fun getContext(): Context = this
+
+    private fun initializeToolbar(title: String?, clickEnabled: Boolean) {
+        val toolbar = binding.toolbar
+        setActionBar(toolbar)
+        if (clickEnabled) {
+            toolbar.setNavigationOnClickListener{ onBackPressed() }
+        }
+        val actionBar = actionBar
+        if (actionBar != null) {
+            title?.let { actionBar.title = it }
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_close)
+        }
+    }
 }
 
 @ExperimentalPagingApi
