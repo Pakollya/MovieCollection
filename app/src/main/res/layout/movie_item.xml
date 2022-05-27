@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.pakollya.moviecollection.data.api.Movie" />
+        <import type="com.pakollya.moviecollection.data.database.entity.Movie" />
         <variable
             name="movie"
-            type="Movie" />
+            type="com.pakollya.moviecollection.data.database.entity.Movie" />
     </data>
     
     <androidx.cardview.widget.CardView
+        android:id="@+id/movie_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -38,8 +39,7 @@
                 app:imageFromUrl="@{movie.imageUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/title"
@@ -58,8 +58,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_movie"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Movie Title"
-                />
+                tools:text="Movie Title"/>
 
             <TextView
                 android:id="@+id/summary"
@@ -80,8 +79,7 @@
                 app:layout_constraintStart_toEndOf="@+id/image_movie"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Summary"
-                />
+                tools:text="Summary"/>
             
         </androidx.constraintlayout.widget.ConstraintLayout>
         

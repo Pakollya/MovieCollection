@@ -1,12 +1,15 @@
 package com.pakollya.moviecollection
 
 import android.app.Application
+import androidx.paging.ExperimentalPagingApi
 import com.pakollya.moviecollection.di.component.*
 import com.pakollya.moviecollection.di.module.*
 
+@ExperimentalPagingApi
 class App: Application() {
 
-    lateinit var presenterComponent: PresenterComponent
+    lateinit var mainPresenterComponent: MainPresenterComponent
+    lateinit var detailPresenterComponent: DetailPresenterComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -16,13 +19,22 @@ class App: Application() {
     fun initDagger() {
         val apiComponent = DaggerApiComponent.builder().apiModule(ApiModule()).build()
 
-        val pagingSourceComponent = DaggerPagingSourceComponent.builder()
+        val databaseComponent = DaggerDatabaseComponent.builder().databaseModule(DatabaseModule(this)).build()
+
+        val remoteMediatorComponent = DaggerRemoteMediatorComponent.builder()
             .apiComponent(apiComponent)
-            .pagingSourceModule(PagingSourceModule())
+            .databaseComponent(databaseComponent)
+            .remoteMediatorModule(RemoteMediatorModule())
             .build()
 
+//        val pagingSourceComponent = DaggerPagingSourceComponent.builder()
+//            .apiComponent(apiComponent)
+//            .pagingSourceModule(PagingSourceModule())
+//            .build()
+
         val repositoryComponent = DaggerRepositoryComponent.builder()
-            .pagingSourceComponent(pagingSourceComponent)
+            .remoteMediatorComponent(remoteMediatorComponent)
+            .databaseComponent(databaseComponent)
             .repositoryModule(RepositoryModule())
             .build()
 
@@ -31,9 +43,14 @@ class App: Application() {
             .interactorModule(InteractorModule())
             .build()
 
-        presenterComponent = DaggerPresenterComponent.builder()
+        mainPresenterComponent = DaggerMainPresenterComponent.builder()
             .interactorComponent(interactorComponent)
-            .presenterModule(PresenterModule())
+            .mainPresenterModule(MainPresenterModule())
+            .build()
+
+        detailPresenterComponent = DaggerDetailPresenterComponent.builder()
+            .interactorComponent(interactorComponent)
+            .detailPresenterModule(DetailPresenterModule())
             .build()
     }
 }
