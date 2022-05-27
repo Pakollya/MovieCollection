@@ -9,6 +9,7 @@ import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
 import com.pakollya.moviecollection.data.database.AppDatabase
 import com.pakollya.moviecollection.data.database.entity.Movie
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @ExperimentalPagingApi
 class MovieListRepository(val database: AppDatabase, val remoteMediator: MovieRemoteMediator) {
@@ -23,4 +24,7 @@ class MovieListRepository(val database: AppDatabase, val remoteMediator: MovieRe
             remoteMediator = remoteMediator,
             pagingSourceFactory = { database.moviesDao().getAllMovie() }
         ).flowable
+
+    fun getMovieByTitle(title: String): Single<Movie> = database.moviesDao().getMovieByTitle(title)
+
 }

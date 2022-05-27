@@ -14,4 +14,9 @@ class MovieInteractor(private val repository: MovieListRepository) {
         .getMovies()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+
+    fun getMovieByTitle(title: String) = repository
+        .getMovieByTitle(title)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 }

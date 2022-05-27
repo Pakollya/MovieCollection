@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.data.database.entity.MovieRemoteKey
+import io.reactivex.Single
 
 @Dao
 interface MovieDao{
@@ -20,8 +21,8 @@ interface MovieDao{
     @Query("DELETE FROM movie")
     fun clearAllMovies()
 
-    @Query("SELECT * FROM movie WHERE id = :id")
-    fun getMovieById(id: Int): Movie?
+    @Query("SELECT * FROM movie WHERE title = :title")
+    fun getMovieByTitle(title: String): Single<Movie>
 }
 
 @Dao
