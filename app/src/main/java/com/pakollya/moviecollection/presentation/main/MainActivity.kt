@@ -13,6 +13,10 @@ import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityMainBinding
 import com.pakollya.moviecollection.di.component.MainPresenterComponent
 import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
+import com.pakollya.moviecollection.presentation.adapter.animation.AddableAnimator
+import com.pakollya.moviecollection.presentation.adapter.animation.SimpleAnimator
+import com.pakollya.moviecollection.presentation.adapter.animation.SlideInLeftAnimator
+import com.pakollya.moviecollection.presentation.adapter.decoration.VerticalItemDecoration
 import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemClickListener
 import com.pakollya.moviecollection.presentation.detail.DetailActivity
 import javax.inject.Inject
@@ -40,10 +44,24 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showMovies(movies: PagingData<Movie>) {
-        val adapter = MovieAdapter()
-        adapter.setItemClickListener(itemClickListener)
-        binding.movieList.adapter = adapter
-        adapter.submitData(this.lifecycle, movies)
+        val movieAdapter = MovieAdapter()
+        movieAdapter.setItemClickListener(itemClickListener)
+        with(binding.movieList) {
+            adapter = movieAdapter
+
+//            addItemDecoration(HorizontalItemDecoration(20))
+            addItemDecoration(VerticalItemDecoration(30, 30))
+
+            itemAnimator = AddableAnimator(SimpleAnimator()).also { animator ->
+                animator.addViewTypeAnimation(R.layout.movie_item, SlideInLeftAnimator())
+                animator.addDuration = 500L
+                animator.removeDuration = 500L
+            }
+        }
+
+        binding.movieList.postDelayed({
+                movieAdapter.submitData(this.lifecycle, movies)
+            }, 300L)
     }
 
     override fun getContext(): Context = this

@@ -12,11 +12,14 @@ import io.reactivex.Single
 @Dao
 interface MovieDao{
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllMovies(movies: List<Movie>)
 
+    @Query("SELECT * FROM movie  ORDER BY id ASC")
+    fun getAllPagingMovie(): PagingSource<Int, Movie>
+
     @Query("SELECT * FROM movie ORDER BY id ASC")
-    fun getAllMovie(): PagingSource<Int, Movie>
+    fun getAllMovie(): Single<List<Movie>>
 
     @Query("DELETE FROM movie")
     fun clearAllMovies()

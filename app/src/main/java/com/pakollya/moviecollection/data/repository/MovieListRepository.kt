@@ -5,7 +5,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.rxjava2.flowable
-import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
 import com.pakollya.moviecollection.data.database.AppDatabase
 import com.pakollya.moviecollection.data.database.entity.Movie
 import io.reactivex.Flowable
@@ -17,12 +16,12 @@ class MovieListRepository(val database: AppDatabase, val remoteMediator: MovieRe
     fun getMovies(): Flowable<PagingData<Movie>> =
         Pager(
             config = PagingConfig(
-                initialLoadSize = NETWORK_PAGE_SIZE,
-                pageSize = NETWORK_PAGE_SIZE,
+                initialLoadSize = 20,
+                pageSize = 8,
                 enablePlaceholders = false,
-                prefetchDistance = 1),
+                prefetchDistance = 3),
             remoteMediator = remoteMediator,
-            pagingSourceFactory = { database.moviesDao().getAllMovie() }
+            pagingSourceFactory = { database.moviesDao().getAllPagingMovie() }
         ).flowable
 
     fun getMovieByTitle(title: String): Single<Movie> = database.moviesDao().getMovieByTitle(title)
