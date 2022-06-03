@@ -17,9 +17,9 @@ class MovieListRepository(val database: AppDatabase, val remoteMediator: MovieRe
         Pager(
             config = PagingConfig(
                 initialLoadSize = 20,
-                pageSize = 8,
+                pageSize = 6,
                 enablePlaceholders = false,
-                prefetchDistance = 3),
+                prefetchDistance = 6),
             remoteMediator = remoteMediator,
             pagingSourceFactory = { database.moviesDao().getAllPagingMovie() }
         ).flowable

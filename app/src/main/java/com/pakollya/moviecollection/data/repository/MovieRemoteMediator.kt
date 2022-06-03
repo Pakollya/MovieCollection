@@ -46,7 +46,7 @@ class MovieRemoteMediator(val apiService: MovieApiService, val database: AppData
 
                         Log.e("APPEND", "$remoteKey")
 
-                        remoteKey?.nextKey ?: NETWORK_PAGE_SIZE
+                        remoteKey?.nextKey ?: 2
                     }
                 }
             }
@@ -55,10 +55,13 @@ class MovieRemoteMediator(val apiService: MovieApiService, val database: AppData
                 if (page == -1) {
                     Single.just(MediatorResult.Success(endOfPaginationReached = true))
                 }  else {
-                    val offset = if(page == 1) INITIAL_LOAD_OFFSET else page
+                    val offset = if(page == 1) INITIAL_LOAD_OFFSET else page * NETWORK_PAGE_SIZE
+                    val movies = mutableListOf<Movie>()
                     apiService.getAllMovies(API_KEY, offset).map { movieResponse ->
                             movieResponse.body()
-                                ?.let { insertMoviesToDB(offset, loadType, it.results) }
+                                ?.let {
+                                    insertMoviesToDB(page, loadType, it.results, state)
+                                }
                     }
                         .map<MediatorResult> { MediatorResult.Success(endOfPaginationReached = it.isEmpty()) }
                         .onErrorReturn {
@@ -70,39 +73,73 @@ class MovieRemoteMediator(val apiService: MovieApiService, val database: AppData
 
     }
 
-    private fun insertMoviesToDB(offset: Int, loadType: LoadType, data: List<Movie>): List<Movie> {
-        if (loadType == LoadType.REFRESH){
-            database.movieRemoteKeysDao().clearAllKeys()
-            database.moviesDao().clearAllMovies()
+    private fun insertMoviesToDB(
+        page: Int,
+        loadType: LoadType,
+        data: List<Movie>,
+        state: PagingState<Int, Movie>
+    ): List<Movie> {
+        val movies = data
+        when(loadType) {
+            LoadType.REFRESH -> {
+                database.movieRemoteKeysDao().clearAllKeys()
+                database.moviesDao().clearAllMovies()
+
+                movies.forEachIndexed { index, movie ->
+                    movie.id = index.toLong()
+                }
+            }
+            LoadType.PREPEND -> {
+                movies.map {
+                    val databaseId = getFirstBlogDatabaseId(state)?.id ?: 0
+                    movies.forEachIndexed { index, movie ->
+                        movie.id = databaseId - (movies.size - index.toLong())
+                    }
+                }
+            }
+            LoadType.APPEND -> {
+                val databaseId = getLastBlogDatabaseId(state)?.id ?: 0
+                movies.forEachIndexed { index, movie ->
+                    movie.id = databaseId + index.toLong() + 1
+                }
+            }
         }
 
-        val prevKey = if (offset == 0) null else offset - NETWORK_PAGE_SIZE
-        val nextKey = offset + NETWORK_PAGE_SIZE
-        val keys = data.map {
-            MovieRemoteKey(movieName = it.title, prevKey = prevKey, nextKey = nextKey)
+        val prevKey = if (page == 1) null else page - 1
+        val nextKey = page + 1
+        val keys = movies.map {
+            MovieRemoteKey(movieId = it.id, prevKey = prevKey, nextKey = nextKey)
         }
         database.movieRemoteKeysDao().insertAllKeys(keys)
-        database.moviesDao().insertAllMovies(data)
+        database.moviesDao().insertAllMovies(movies)
 
-        return data
+        return movies
+    }
+
+    private fun getFirstBlogDatabaseId(state: PagingState<Int, Movie>): Movie? {
+        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
+    }
+
+    private fun getLastBlogDatabaseId(state: PagingState<Int, Movie>): Movie? {
+        return state.lastItemOrNull()
     }
 
     private fun getRemoteKeyForLastItem(state: PagingState<Int, Movie>): MovieRemoteKey? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { repo ->
-            database.movieRemoteKeysDao().getKeyByMovieId(repo.title)
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { movie ->
+            database.movieRemoteKeysDao().getKeyByMovieId(movie.id)
         }
     }
 
     private fun getRemoteKeyForFirstItem(state: PagingState<Int, Movie>): MovieRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { movie ->
-            database.movieRemoteKeysDao().getKeyByMovieId(movie.title)
+            database.movieRemoteKeysDao().getKeyByMovieId(movie.id)
         }
     }
 
     private fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): MovieRemoteKey? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.title?.let { title ->
-                database.movieRemoteKeysDao().getKeyByMovieId(title)
+            state.closestItemToPosition(position)?.id?.let { id ->
+                database.movieRemoteKeysDao().getKeyByMovieId(id)
             }
         }
     }

@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName
 import com.pakollya.moviecollection.data.database.ImageLinkConverter
 import com.pakollya.moviecollection.data.database.MovieLinkConverter
 
-@Entity(tableName = "movie", indices = [Index(value = ["id" , "title"])])
+@Entity(tableName = "movie", indices = [Index(value = ["id","title"])])
 data class Movie(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
+    var id: Long,
 
     @SerializedName("display_title")
     val title: String,
@@ -50,7 +50,7 @@ data class ImageLink(val src: String?)
 @Entity(tableName = "movie_remote_key")
 data class MovieRemoteKey(
     @PrimaryKey
-    val movieName: String,
+    val movieId: Long,
     val prevKey: Int?,
     val nextKey: Int?
 )
