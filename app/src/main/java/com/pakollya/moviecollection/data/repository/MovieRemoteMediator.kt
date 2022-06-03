@@ -46,7 +46,7 @@ class MovieRemoteMediator(val apiService: MovieApiService, val database: AppData
 
                         Log.e("APPEND", "$remoteKey")
 
-                        remoteKey?.nextKey ?: 2
+                        remoteKey?.nextKey ?: 1
                     }
                 }
             }
@@ -55,8 +55,7 @@ class MovieRemoteMediator(val apiService: MovieApiService, val database: AppData
                 if (page == -1) {
                     Single.just(MediatorResult.Success(endOfPaginationReached = true))
                 }  else {
-                    val offset = if(page == 1) INITIAL_LOAD_OFFSET else page * NETWORK_PAGE_SIZE
-                    val movies = mutableListOf<Movie>()
+                    val offset = (page -1) * NETWORK_PAGE_SIZE
                     apiService.getAllMovies(API_KEY, offset).map { movieResponse ->
                             movieResponse.body()
                                 ?.let {

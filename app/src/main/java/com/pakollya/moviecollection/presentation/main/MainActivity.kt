@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -21,6 +20,7 @@ import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
 import com.pakollya.moviecollection.presentation.adapter.animation.AddableAnimator
 import com.pakollya.moviecollection.presentation.adapter.animation.SimpleAnimator
 import com.pakollya.moviecollection.presentation.adapter.animation.SlideInLeftAnimator
+import com.pakollya.moviecollection.presentation.adapter.decoration.HorizontalItemDecoration
 import com.pakollya.moviecollection.presentation.adapter.decoration.VerticalItemDecoration
 import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemClickListener
 import com.pakollya.moviecollection.presentation.detail.DetailActivity
@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     @Inject
     lateinit var mainPresenter: MainContract.Presenter
     private lateinit var binding: ActivityMainBinding
+    private lateinit var movieAdapter: MovieAdapter
 
     private val itemClickListener: MovieItemClickListener<Movie> = object : MovieItemClickListener<Movie> {
         override fun openDetail(movie: Movie) {
@@ -46,31 +47,34 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setActionBar(binding.toolbar)
         mainPresenterComponent.inject(this)
         mainPresenter.attachWithView(this)
+
+        setAdapter()
+        setAnimation()
+
         mainPresenter.getMovies()
     }
 
     override fun showMovies(movies: PagingData<Movie>) {
-        val movieAdapter = MovieAdapter()
-        movieAdapter.setItemClickListener(itemClickListener)
-        with(binding.movieList) {
-            adapter = movieAdapter.withLoadStateFooter(LoaderStateAdapter())
-
-//            addItemDecoration(HorizontalItemDecoration(20))
-            addItemDecoration(VerticalItemDecoration(30, 30))
-
-            itemAnimator = AddableAnimator(SimpleAnimator()).also { animator ->
-                animator.addViewTypeAnimation(R.layout.movie_item, SlideInLeftAnimator())
-                animator.addDuration = 500L
-                animator.removeDuration = 500L
-            }
-        }
-
         binding.movieList.postDelayed({
                 movieAdapter.submitData(this.lifecycle, movies)
-            }, 300L)
+            }, 500L)
+
+    }
+
+    override fun getContext(): Context = this
+
+    private fun openItemDetail(title: String) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("MovieTitle", title)
+        startActivity(intent)
+    }
+
+    private fun setAdapter() {
+        movieAdapter = MovieAdapter()
+        movieAdapter.setItemClickListener(itemClickListener)
 
         movieAdapter.addLoadStateListener { state ->
-            binding.movieList.isVisible = state.refresh != LoadState.Loading
+//            binding.movieList.isVisible = state.refresh != LoadState.Loading
             binding.progress.isVisible = state.refresh == LoadState.Loading
             val refreshState = state.refresh
             if (refreshState is LoadState.Error) {
@@ -82,14 +86,22 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                     .show()
             }
         }
+
+        binding.movieList.adapter = movieAdapter
+//                        .withLoadStateFooter(LoaderStateAdapter())
     }
 
-    override fun getContext(): Context = this
+    private fun setAnimation() {
+        with(binding.movieList) {
+//            addItemDecoration(HorizontalItemDecoration(20))
+            addItemDecoration(VerticalItemDecoration(30, 30))
 
-    private fun openItemDetail(title: String) {
-        val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("MovieTitle", title)
-        startActivity(intent)
+            itemAnimator = AddableAnimator(SimpleAnimator()).also { animator ->
+                animator.addViewTypeAnimation(R.layout.movie_item, SlideInLeftAnimator())
+                animator.addDuration = 1000L
+                animator.removeDuration = 500L
+            }
+        }
     }
 }
 

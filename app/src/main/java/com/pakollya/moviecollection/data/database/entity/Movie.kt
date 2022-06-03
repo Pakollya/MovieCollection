@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 import com.pakollya.moviecollection.data.database.ImageLinkConverter
 import com.pakollya.moviecollection.data.database.MovieLinkConverter
 
-@Entity(tableName = "movie", indices = [Index(value = ["id","title"])])
+@Entity(tableName = "movie", indices = [Index(value = ["title"], unique = true)])
 data class Movie(
     @PrimaryKey
     var id: Long,
