@@ -7,9 +7,10 @@ import com.pakollya.moviecollection.data.repository.MovieListRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 @ExperimentalPagingApi
-class MovieInteractor(private val repository: MovieListRepository) {
+class MovieInteractor @Inject constructor (private val repository: MovieListRepository) {
     fun getMovies(): Flowable<PagingData<Movie>> = repository
         .getMovies()
         .subscribeOn(Schedulers.io())

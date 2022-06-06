@@ -15,9 +15,10 @@ import com.pakollya.moviecollection.data.database.entity.MovieRemoteKey
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.InvalidObjectException
+import javax.inject.Inject
 
 @ExperimentalPagingApi
-class MovieRemoteMediator(val apiService: MovieApiService, val database: AppDatabase): RxRemoteMediator<Int, Movie>() {
+class MovieRemoteMediator @Inject constructor (val apiService: MovieApiService, val database: AppDatabase): RxRemoteMediator<Int, Movie>() {
 
     override fun loadSingle(
         loadType: LoadType,
