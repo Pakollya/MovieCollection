@@ -9,80 +9,50 @@
             name="movie"
             type="com.pakollya.moviecollection.data.database.entity.Movie" />
     </data>
-    
-    <androidx.cardview.widget.CardView
-        android:id="@+id/movie_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
         
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/movie_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_item">
+            android:layout_height="wrap_content">
             
             <ImageView
                 android:id="@+id/image_movie"
-                android:layout_width="157dp"
-                android:layout_height="105dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 app:imageFromUrl="@{movie.imageUrl}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/img_girl"/>
+
+            <View
+                android:id="@+id/vStatisticBackground"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/title" />
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:ellipsize="end"
-                android:layout_gravity="top"
-                android:textStyle="bold"
+                android:maxLines="2"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="20sp"
-                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textColor="@color/black"
                 android:text="@{movie.title}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_movie"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/image_movie"
+                app:layout_constraintBottom_toBottomOf="@+id/image_movie"
                 tools:text="Movie Title"/>
-
-            <TextView
-                android:id="@+id/summary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="8dp"
-                android:ellipsize="end"
-                android:layout_gravity="top"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="16sp"
-                android:textColor="@color/secondary_text"
-                android:singleLine="false"
-                android:text="@{movie.summary}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_movie"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Summary"/>
             
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
-    </androidx.cardview.widget.CardView>
 
 </layout>

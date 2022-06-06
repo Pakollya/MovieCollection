@@ -10,8 +10,8 @@ import com.pakollya.moviecollection.data.database.MovieLinkConverter
 
 @Entity(tableName = "movie", indices = [Index(value = ["title"], unique = true)])
 data class Movie(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
+    var id: Long,
 
     @SerializedName("display_title")
     val title: String,
@@ -50,7 +50,7 @@ data class ImageLink(val src: String?)
 @Entity(tableName = "movie_remote_key")
 data class MovieRemoteKey(
     @PrimaryKey
-    val movieName: String,
+    val movieId: Long,
     val prevKey: Int?,
     val nextKey: Int?
 )
