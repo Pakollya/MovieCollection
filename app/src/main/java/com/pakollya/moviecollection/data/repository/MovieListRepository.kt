@@ -9,9 +9,10 @@ import com.pakollya.moviecollection.data.database.AppDatabase
 import com.pakollya.moviecollection.data.database.entity.Movie
 import io.reactivex.Flowable
 import io.reactivex.Single
+import javax.inject.Inject
 
 @ExperimentalPagingApi
-class MovieListRepository(val database: AppDatabase, val remoteMediator: MovieRemoteMediator) {
+class MovieListRepository @Inject constructor (val database: AppDatabase, val remoteMediator: MovieRemoteMediator) {
 
     fun getMovies(): Flowable<PagingData<Movie>> =
         Pager(

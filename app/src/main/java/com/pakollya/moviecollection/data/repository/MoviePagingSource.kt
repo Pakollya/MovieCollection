@@ -9,8 +9,9 @@ import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.data.api.MovieApiService
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class MoviePagingSource(private val apiService: MovieApiService): RxPagingSource<Int, Movie>() {
+class MoviePagingSource @Inject constructor(private val apiService: MovieApiService): RxPagingSource<Int, Movie>() {
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Movie>> {
         val position = params.key ?: INITIAL_LOAD_OFFSET

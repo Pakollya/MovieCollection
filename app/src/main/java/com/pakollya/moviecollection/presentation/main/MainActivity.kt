@@ -14,13 +14,11 @@ import com.pakollya.moviecollection.App
 import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityMainBinding
-import com.pakollya.moviecollection.di.component.MainPresenterComponent
-import com.pakollya.moviecollection.presentation.adapter.LoaderStateAdapter
+import com.pakollya.moviecollection.di.AppComponent
 import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
 import com.pakollya.moviecollection.presentation.adapter.animation.AddableAnimator
 import com.pakollya.moviecollection.presentation.adapter.animation.SimpleAnimator
 import com.pakollya.moviecollection.presentation.adapter.animation.SlideInLeftAnimator
-import com.pakollya.moviecollection.presentation.adapter.decoration.HorizontalItemDecoration
 import com.pakollya.moviecollection.presentation.adapter.decoration.VerticalItemDecoration
 import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemClickListener
 import com.pakollya.moviecollection.presentation.detail.DetailActivity
@@ -45,7 +43,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         setActionBar(binding.toolbar)
-        mainPresenterComponent.inject(this)
+        appComponent.inject(this)
         mainPresenter.attachWithView(this)
 
         setAdapter()
@@ -106,8 +104,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 }
 
 @ExperimentalPagingApi
-val Context.mainPresenterComponent: MainPresenterComponent
+val Context.appComponent: AppComponent
     get() = when(this) {
-        is App -> mainPresenterComponent
-        else -> this.applicationContext.mainPresenterComponent
+        is App -> appComponent
+        else -> this.applicationContext.appComponent
     }

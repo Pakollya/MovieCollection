@@ -6,11 +6,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.paging.ExperimentalPagingApi
-import com.pakollya.moviecollection.App
 import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityDetailBinding
-import com.pakollya.moviecollection.di.component.DetailPresenterComponent
+import com.pakollya.moviecollection.presentation.main.appComponent
 import javax.inject.Inject
 
 @ExperimentalPagingApi
@@ -24,7 +23,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
-        detailPresenterComponent.inject(this)
+        appComponent.inject(this)
         detailPresenter.attachWithView(this)
 //        TODO: Добавить обработку null
         movieTitle = intent.extras?.getString("MovieTitle")
@@ -53,10 +52,3 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         }
     }
 }
-
-@ExperimentalPagingApi
-val Context.detailPresenterComponent: DetailPresenterComponent
-    get() = when(this) {
-        is App -> detailPresenterComponent
-        else -> this.applicationContext.detailPresenterComponent
-    }

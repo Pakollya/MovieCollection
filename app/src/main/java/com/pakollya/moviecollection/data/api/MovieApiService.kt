@@ -6,8 +6,9 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class MovieApiService(val api: Api) {
+class MovieApiService @Inject constructor (val api: Api) {
 
     fun getAllMovies(apiKey: String, offset: Int): Single<Response<MovieResponse>> = api.getAllMovies(apiKey, offset)
         .compose { upstream ->
