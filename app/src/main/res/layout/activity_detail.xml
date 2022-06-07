@@ -11,16 +11,18 @@
             type="com.pakollya.moviecollection.data.database.entity.Movie" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/background">
+        android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_scrollFlags="scroll">
 
             <android.widget.Toolbar
@@ -40,12 +42,14 @@
         <ImageView
             android:id="@+id/image_movie"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="12dp"
+            android:layout_height="300dp"
             android:paddingBottom="12dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            app:imageFromUrl="@{movie.imageUrl}"/>
+            android:layout_gravity="top"
+            app:imageFromUrl="@{movie.imageUrl}"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@drawable/movie_placeholder"/>
 
         <TextView
             android:id="@+id/title"
@@ -56,7 +60,10 @@
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
             android:textSize="20sp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/image_movie"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="Movie Title"/>
 
         <TextView
@@ -70,10 +77,13 @@
             android:text="@{movie.summary}"
             android:fontFamily="sans-serif-medium"
             android:textSize="16sp"
-            android:textColor="@color/secondary_text"
+            android:textColor="@color/black"
             android:singleLine="false"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="Summary"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

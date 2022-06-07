@@ -48,7 +48,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         if (actionBar != null) {
             title?.let { actionBar.title = it }
             actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_close)
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_left)
         }
     }
 }
