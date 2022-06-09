@@ -1,6 +1,5 @@
 package com.pakollya.moviecollection.presentation.adapter
 
-import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide

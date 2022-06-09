@@ -27,5 +27,4 @@ class MovieListRepository @Inject constructor (val database: AppDatabase, val re
         ).flowable
 
     fun getMovieByTitle(title: String): Single<Movie> = database.moviesDao().getMovieByTitle(title)
-
 }
