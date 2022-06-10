@@ -28,6 +28,10 @@ class MovieAdapter: PagingDataAdapter<Movie, MovieViewHolder>(DIFF_UTIL) {
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.movie_item
+    }
+
     fun setItemClickListener(listener: MovieItemClickListener<Movie>) {
         itemClickListener = listener
     }

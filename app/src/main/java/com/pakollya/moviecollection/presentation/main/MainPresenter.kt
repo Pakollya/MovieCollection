@@ -1,11 +1,13 @@
+@file:OptIn(ExperimentalPagingApi::class)
+
 package com.pakollya.moviecollection.presentation.main
 
 import androidx.paging.ExperimentalPagingApi
 import com.pakollya.moviecollection.domain.MovieInteractor
 import com.pakollya.moviecollection.presentation.base.BasePresenter
+import javax.inject.Inject
 
-@ExperimentalPagingApi
-class MainPresenter(private val movieInteractor: MovieInteractor):
+class MainPresenter (private val movieInteractor: MovieInteractor):
     BasePresenter<MainContract.View>(),
     MainContract.Presenter
 {
