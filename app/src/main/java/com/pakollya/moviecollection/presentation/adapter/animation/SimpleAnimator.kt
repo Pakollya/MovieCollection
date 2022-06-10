@@ -19,5 +19,4 @@ class SimpleAnimator : CommonItemAnimator {
     override fun preAnimateAdd(holder: RecyclerView.ViewHolder) {
         holder.itemView.alpha = 0f
     }
-
 }

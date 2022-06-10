@@ -6,7 +6,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxRemoteMediator
 import com.pakollya.moviecollection.API_KEY
-import com.pakollya.moviecollection.INITIAL_LOAD_OFFSET
 import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
 import com.pakollya.moviecollection.data.api.MovieApiService
 import com.pakollya.moviecollection.data.database.AppDatabase
@@ -18,7 +17,10 @@ import java.io.InvalidObjectException
 import javax.inject.Inject
 
 @ExperimentalPagingApi
-class MovieRemoteMediator @Inject constructor (val apiService: MovieApiService, val database: AppDatabase): RxRemoteMediator<Int, Movie>() {
+class MovieRemoteMediator @Inject constructor (
+    val apiService: MovieApiService,
+    val database: AppDatabase
+): RxRemoteMediator<Int, Movie>() {
 
     override fun loadSingle(
         loadType: LoadType,
@@ -27,7 +29,6 @@ class MovieRemoteMediator @Inject constructor (val apiService: MovieApiService, 
         return Single.just(loadType)
             .subscribeOn(Schedulers.io())
             .map {
-                Log.e("LoadType", "$it")
                 when(it) {
                     LoadType.REFRESH -> {
                         val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
@@ -38,14 +39,10 @@ class MovieRemoteMediator @Inject constructor (val apiService: MovieApiService, 
                         val remoteKey = getRemoteKeyForFirstItem(state)
                             ?: throw InvalidObjectException("Result is empty")
 
-                        Log.e("PREPEND", "$remoteKey")
-
                         remoteKey.prevKey ?: -1
                     }
                     LoadType.APPEND -> {
                         val remoteKey = getRemoteKeyForLastItem(state)
-
-                        Log.e("APPEND", "$remoteKey")
 
                         remoteKey?.nextKey ?: 1
                     }
@@ -70,7 +67,6 @@ class MovieRemoteMediator @Inject constructor (val apiService: MovieApiService, 
                 }
             }
             .onErrorReturn { MediatorResult.Error(it) }
-
     }
 
     private fun insertMoviesToDB(

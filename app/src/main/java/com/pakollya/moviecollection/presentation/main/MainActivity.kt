@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalPagingApi::class)
+
 package com.pakollya.moviecollection.presentation.main
 
 import android.content.Context
@@ -15,6 +17,7 @@ import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.databinding.ActivityMainBinding
 import com.pakollya.moviecollection.di.AppComponent
+import com.pakollya.moviecollection.presentation.adapter.LoaderStateAdapter
 import com.pakollya.moviecollection.presentation.adapter.MovieAdapter
 import com.pakollya.moviecollection.presentation.adapter.animation.AddableAnimator
 import com.pakollya.moviecollection.presentation.adapter.animation.SimpleAnimator
@@ -24,7 +27,6 @@ import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemCli
 import com.pakollya.moviecollection.presentation.detail.DetailActivity
 import javax.inject.Inject
 
-@ExperimentalPagingApi
 class MainActivity : AppCompatActivity(), MainContract.View {
 
     @Inject
@@ -86,13 +88,13 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         }
 
         binding.movieList.adapter = movieAdapter
-//                        .withLoadStateFooter(LoaderStateAdapter())
+                        .withLoadStateFooter(LoaderStateAdapter())
     }
 
     private fun setAnimation() {
         with(binding.movieList) {
 //            addItemDecoration(HorizontalItemDecoration(20))
-            addItemDecoration(VerticalItemDecoration(30, 30))
+            addItemDecoration(VerticalItemDecoration(50, 0))
 
             itemAnimator = AddableAnimator(SimpleAnimator()).also { animator ->
                 animator.addViewTypeAnimation(R.layout.movie_item, SlideInLeftAnimator())
@@ -103,7 +105,6 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 }
 
-@ExperimentalPagingApi
 val Context.appComponent: AppComponent
     get() = when(this) {
         is App -> appComponent

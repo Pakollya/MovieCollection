@@ -29,7 +29,6 @@ class LoaderStateAdapter() : LoadStateAdapter<ItemViewHolder>() {
     }
 
     private companion object {
-
         private const val ERROR = 1
         private const val PROGRESS = 0
     }

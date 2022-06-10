@@ -15,5 +15,4 @@ class SlideInLeftAnimator: CommonItemAnimator {
     override fun preAnimateAdd(holder: RecyclerView.ViewHolder) {
         holder.itemView.translationX = -holder.itemView.rootView.width.toFloat()
     }
-
 }
