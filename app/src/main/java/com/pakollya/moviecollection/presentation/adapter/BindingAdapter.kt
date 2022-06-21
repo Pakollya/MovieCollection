@@ -9,7 +9,7 @@ import com.pakollya.moviecollection.R
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 @BindingAdapter("imageFromUrl")
-fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
+fun imageFromUrl(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(view.context)
             .load(imageUrl)
@@ -21,7 +21,7 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
 }
 
 @BindingAdapter("imageFromUrlWithBlur")
-fun bindImageFromUrlWithBlur(view: ImageView, imageUrl: String?) {
+fun imageFromUrlWithBlur(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(view.context)
             .load(imageUrl)

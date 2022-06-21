@@ -1,4 +1,4 @@
-package com.pakollya.moviecollection
+package com.pakollya.moviecollection.utils
 
 const val DATABASE_NAME = "movie-db"
 
@@ -17,3 +17,7 @@ const val RETRY_ATTEMPTS = 4L
 const val INITIAL_LOAD_OFFSET = 0
 
 const val NETWORK_PAGE_SIZE = 20
+
+const val TITLE_KEY = "MovieTitle"
+
+const val LOADING_ERROR = "Loading Error"

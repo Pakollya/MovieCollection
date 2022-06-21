@@ -5,7 +5,7 @@ package com.pakollya.moviecollection.di
 import android.content.Context
 import androidx.paging.ExperimentalPagingApi
 import com.pakollya.moviecollection.data.api.MovieApiService
-import com.pakollya.moviecollection.data.database.AppDatabase
+import com.pakollya.moviecollection.data.database.CacheDataSource.BaseDataSource
 import com.pakollya.moviecollection.data.repository.MovieListRepository
 import com.pakollya.moviecollection.data.repository.MoviePagingSource
 import com.pakollya.moviecollection.data.repository.MovieRemoteMediator
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     val movieApiService: MovieApiService
-    val appDatabase: AppDatabase
+    val appDatabase: BaseDataSource
     val moviePagingSource: MoviePagingSource
     val remoteMediator: MovieRemoteMediator
     val movieListRepository: MovieListRepository

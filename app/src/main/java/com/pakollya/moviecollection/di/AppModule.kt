@@ -6,14 +6,17 @@ import android.content.Context
 import androidx.paging.ExperimentalPagingApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.pakollya.moviecollection.BASE_URL
+import com.pakollya.moviecollection.utils.BASE_URL
 import com.pakollya.moviecollection.data.api.Api
-import com.pakollya.moviecollection.data.database.AppDatabase
+import com.pakollya.moviecollection.data.api.MovieApiService
+import com.pakollya.moviecollection.data.database.CacheDataSource.BaseDataSource
 import com.pakollya.moviecollection.domain.MovieInteractor
 import com.pakollya.moviecollection.presentation.detail.DetailContract
 import com.pakollya.moviecollection.presentation.detail.DetailPresenter
 import com.pakollya.moviecollection.presentation.main.MainContract
 import com.pakollya.moviecollection.presentation.main.MainPresenter
+import com.pakollya.moviecollection.utils.API_KEY
+import com.pakollya.moviecollection.utils.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -49,13 +52,17 @@ class ApiModule {
     @Provides
     @Singleton
     fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMovieApiService(api: Api): MovieApiService = MovieApiService(api, API_KEY)
 }
 
 @Module
 class DatabaseModule {
     @Provides
     @Singleton
-    fun provideAppDatabase(context: Context) = AppDatabase.getInstance(context.applicationContext)
+    fun provideAppDatabase(context: Context) = BaseDataSource(context.applicationContext, DATABASE_NAME)
 }
 
 @Module(includes = [ApiModule::class, DatabaseModule::class])
