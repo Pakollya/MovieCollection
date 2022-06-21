@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.pakollya.moviecollection.R
-import com.pakollya.moviecollection.SPLASH_TIMER
+import com.pakollya.moviecollection.utils.SPLASH_TIMER
 import com.pakollya.moviecollection.presentation.main.MainActivity
 
 class SplashActivity : AppCompatActivity() {

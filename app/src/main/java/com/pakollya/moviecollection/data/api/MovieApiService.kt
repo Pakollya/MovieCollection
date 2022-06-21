@@ -1,16 +1,18 @@
 package com.pakollya.moviecollection.data.api
 
-import com.pakollya.moviecollection.RETRY_ATTEMPTS
-import com.pakollya.moviecollection.TIMEOUT
+import com.pakollya.moviecollection.utils.RETRY_ATTEMPTS
+import com.pakollya.moviecollection.utils.TIMEOUT
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class MovieApiService @Inject constructor (val api: Api) {
+class MovieApiService(
+private val api: Api,
+private val apiKey: String
+) {
 
-    fun getAllMovies(apiKey: String, offset: Int): Single<Response<MovieResponse>> = api.getAllMovies(apiKey, offset)
+    fun movieApiResponse(offset: Int): Single<Response<MovieApiResponse>> = api.getListMovie(apiKey, offset)
         .compose { upstream ->
             upstream
                 .subscribeOn(Schedulers.io())

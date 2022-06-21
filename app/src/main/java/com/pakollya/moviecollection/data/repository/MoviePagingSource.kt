@@ -2,21 +2,22 @@ package com.pakollya.moviecollection.data.repository
 
 import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxPagingSource
-import com.pakollya.moviecollection.API_KEY
-import com.pakollya.moviecollection.INITIAL_LOAD_OFFSET
-import com.pakollya.moviecollection.NETWORK_PAGE_SIZE
+import com.pakollya.moviecollection.utils.INITIAL_LOAD_OFFSET
+import com.pakollya.moviecollection.utils.NETWORK_PAGE_SIZE
 import com.pakollya.moviecollection.data.database.entity.Movie
 import com.pakollya.moviecollection.data.api.MovieApiService
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MoviePagingSource @Inject constructor(private val apiService: MovieApiService): RxPagingSource<Int, Movie>() {
+class MoviePagingSource @Inject constructor (
+    private val apiService: MovieApiService
+): RxPagingSource<Int, Movie>() {
 
     override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Movie>> {
         val position = params.key ?: INITIAL_LOAD_OFFSET
         val offset = if (params.key != null) position * NETWORK_PAGE_SIZE else INITIAL_LOAD_OFFSET
-        return apiService.getAllMovies(API_KEY, offset)
+        return apiService.movieApiResponse(offset)
             .subscribeOn(Schedulers.io())
             .flatMap { movieResponse ->
                 return@flatMap if (movieResponse.isSuccessful) {

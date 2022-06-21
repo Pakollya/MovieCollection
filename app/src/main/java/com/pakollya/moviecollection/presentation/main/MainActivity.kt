@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalPagingApi::class)
-
 package com.pakollya.moviecollection.presentation.main
 
 import android.content.Context
@@ -8,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.google.android.material.snackbar.Snackbar
@@ -23,8 +20,10 @@ import com.pakollya.moviecollection.presentation.adapter.animation.AddableAnimat
 import com.pakollya.moviecollection.presentation.adapter.animation.SimpleAnimator
 import com.pakollya.moviecollection.presentation.adapter.animation.SlideInLeftAnimator
 import com.pakollya.moviecollection.presentation.adapter.decoration.VerticalItemDecoration
-import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemClickListener
+import com.pakollya.moviecollection.presentation.adapter.viewholder.ItemClickListener
 import com.pakollya.moviecollection.presentation.detail.DetailActivity
+import com.pakollya.moviecollection.utils.LOADING_ERROR
+import com.pakollya.moviecollection.utils.TITLE_KEY
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainContract.View {
@@ -34,9 +33,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var binding: ActivityMainBinding
     private lateinit var movieAdapter: MovieAdapter
 
-    private val itemClickListener: MovieItemClickListener<Movie> = object : MovieItemClickListener<Movie> {
-        override fun openDetail(movie: Movie) {
-            openItemDetail(movie.title)
+    private val itemClickListener: ItemClickListener<Movie> = object : ItemClickListener<Movie> {
+        override fun openDetail(item: Movie?) {
+            item?.let { itemDetail(it.title) }
         }
     }
 
@@ -51,27 +50,28 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         setAdapter()
         setAnimation()
 
-        mainPresenter.getMovies()
+        mainPresenter.listMovie()
     }
 
-    override fun showMovies(movies: PagingData<Movie>) {
+    override fun showListMovie(listMovie: PagingData<Movie>) {
         binding.movieList.postDelayed({
-                movieAdapter.submitData(this.lifecycle, movies)
+                movieAdapter.submitData(this.lifecycle, listMovie)
             }, 500L)
 
     }
 
-    override fun getContext(): Context = this
+    override fun context(): Context = this
 
-    private fun openItemDetail(title: String) {
-        val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("MovieTitle", title)
-        startActivity(intent)
+    private fun itemDetail(title: String?) {
+        if (!title.isNullOrEmpty()) {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(TITLE_KEY, title)
+            startActivity(intent)
+        }
     }
 
     private fun setAdapter() {
-        movieAdapter = MovieAdapter()
-        movieAdapter.setItemClickListener(itemClickListener)
+        movieAdapter = MovieAdapter(itemClickListener)
 
         movieAdapter.addLoadStateListener { state ->
 //            binding.movieList.isVisible = state.refresh != LoadState.Loading
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             if (refreshState is LoadState.Error) {
                 Snackbar.make(
                     binding.root,
-                    refreshState.error.localizedMessage ?: "",
+                    refreshState.error.localizedMessage ?: LOADING_ERROR,
                     Snackbar.LENGTH_LONG
                 )
                     .show()

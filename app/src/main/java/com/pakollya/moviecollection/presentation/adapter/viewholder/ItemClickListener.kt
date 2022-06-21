@@ -1,5 +1,5 @@
 package com.pakollya.moviecollection.presentation.adapter.viewholder
 
-interface MovieItemClickListener<M> {
-    fun openDetail(movie: M)
+interface ItemClickListener<M> {
+    fun openDetail(item: M?)
 }
