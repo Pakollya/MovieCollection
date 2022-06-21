@@ -13,30 +13,30 @@ import io.reactivex.Single
 interface MovieDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllMovies(movies: List<Movie>)
+    fun insertListMovie(movies: List<Movie>)
 
     @Query("SELECT * FROM movie ORDER BY id ASC")
-    fun getAllPagingMovie(): PagingSource<Int, Movie>
+    fun listPagingMovie(): PagingSource<Int, Movie>
 
     @Query("SELECT * FROM movie ORDER BY id ASC")
-    fun getAllMovie(): Single<List<Movie>>
+    fun listMovie(): Single<List<Movie>>
 
     @Query("DELETE FROM movie")
-    fun clearAllMovies()
+    fun clearListMovie()
 
     @Query("SELECT * FROM movie WHERE title = :title")
-    fun getMovieByTitle(title: String): Single<Movie>
+    fun movieByTitle(title: String): Single<Movie>
 }
 
 @Dao
 interface MovieRemoteKeyDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllKeys(remoteKeys: List<MovieRemoteKey>)
+    fun insertListKeys(remoteKeys: List<MovieRemoteKey>)
 
     @Query("SELECT * FROM movie_remote_key WHERE movieId = :movieId")
-    fun getKeyByMovieId(movieId: Long): MovieRemoteKey?
+    fun keyByMovieId(movieId: Long): MovieRemoteKey?
 
     @Query("DELETE FROM movie_remote_key")
-    fun clearAllKeys()
+    fun clearListKey()
 }

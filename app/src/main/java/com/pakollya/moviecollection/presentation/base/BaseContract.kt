@@ -4,7 +4,7 @@ import android.content.Context
 
 interface BaseContract {
     interface View {
-        fun getContext(): Context?
+        fun context(): Context?
     }
 
     interface Presenter<V : View?> {

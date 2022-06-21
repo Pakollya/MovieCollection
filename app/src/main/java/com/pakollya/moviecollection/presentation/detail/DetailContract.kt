@@ -10,6 +10,6 @@ interface DetailContract {
     }
 
     interface Presenter: BaseContract.Presenter<View?> {
-        fun getMovie(title: String)
+        fun movieByTitle(title: String)
     }
 }

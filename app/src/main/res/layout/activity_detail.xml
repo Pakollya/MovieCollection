@@ -8,6 +8,11 @@
         <variable
             name="movie"
             type="com.pakollya.moviecollection.data.database.entity.Movie" />
+
+        <import type="com.pakollya.moviecollection.utils.ConstantsKt" />
+        <variable
+            name="blur"
+            type="com.pakollya.moviecollection.utils.ConstantsKt" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -168,7 +173,7 @@
                     android:paddingTop="12dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:text="@{movie.getLinkText()}"
+                    android:text="@{movie.linkText()}"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:singleLine="false"

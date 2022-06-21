@@ -7,12 +7,12 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.pakollya.moviecollection.R
 import com.pakollya.moviecollection.data.database.entity.Movie
-import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieItemClickListener
+import com.pakollya.moviecollection.presentation.adapter.viewholder.ItemClickListener
 import com.pakollya.moviecollection.presentation.adapter.viewholder.MovieViewHolder
 
-class MovieAdapter: PagingDataAdapter<Movie, MovieViewHolder>(DIFF_UTIL) {
-
-    private lateinit var itemClickListener: MovieItemClickListener<Movie>
+class MovieAdapter(
+    private val itemClickListener: ItemClickListener<Movie>
+) : PagingDataAdapter<Movie, MovieViewHolder>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(DataBindingUtil.inflate(
@@ -20,20 +20,18 @@ class MovieAdapter: PagingDataAdapter<Movie, MovieViewHolder>(DIFF_UTIL) {
             R.layout.movie_item,
             parent,
             false
-        ))
+        ),
+            itemClickListener
+        )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bind(it, itemClickListener)
+            holder.onBind(it)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.movie_item
-    }
-
-    fun setItemClickListener(listener: MovieItemClickListener<Movie>) {
-        itemClickListener = listener
     }
 
     companion object {

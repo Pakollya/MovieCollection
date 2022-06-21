@@ -35,15 +35,18 @@ data class Movie(
     @SerializedName("multimedia")
     @TypeConverters(ImageLinkConverter::class)
     val imageLink: ImageLink
-) {
-    fun getImageUrl() = imageLink.src
+) : Item {
+    fun imageUrl() = imageLink.src
 
-    fun getMovieUrl() = movieLink.url
+    fun movieUrl() = movieLink.url
 
-    fun getLinkText() = movieLink.link_text
+    fun linkText() = movieLink.link_text
 }
 
-data class MovieLink(val url: String?, @SerializedName("suggested_link_text") val link_text: String?)
+data class MovieLink(
+    val url: String?,
+    @SerializedName("suggested_link_text") val link_text: String?
+)
 
 data class ImageLink(val src: String?)
 

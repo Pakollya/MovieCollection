@@ -7,10 +7,10 @@ import com.pakollya.moviecollection.presentation.base.BaseContract
 interface MainContract {
 
     interface View : BaseContract.View {
-        fun showMovies(movies: PagingData<Movie>)
+        fun showListMovie(listMovie: PagingData<Movie>)
     }
 
     interface Presenter : BaseContract.Presenter<View?> {
-        fun getMovies()
+        fun listMovie()
     }
 }

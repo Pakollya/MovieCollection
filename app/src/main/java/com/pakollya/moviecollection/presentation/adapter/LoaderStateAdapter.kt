@@ -4,16 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
+import com.pakollya.moviecollection.presentation.adapter.LoaderStateAdapter.State.*
 import com.pakollya.moviecollection.presentation.adapter.viewholder.ErrorViewHolder
 import com.pakollya.moviecollection.presentation.adapter.viewholder.ItemViewHolder
 import com.pakollya.moviecollection.presentation.adapter.viewholder.ProgressViewHolder
 
-class LoaderStateAdapter() : LoadStateAdapter<ItemViewHolder>() {
+class LoaderStateAdapter : LoadStateAdapter<ItemViewHolder>() {
 
     override fun getStateViewType(loadState: LoadState) = when (loadState) {
         is LoadState.NotLoading -> error("Not supported")
-        LoadState.Loading -> PROGRESS
-        is LoadState.Error -> ERROR
+        LoadState.Loading -> PROGRESS.id
+        is LoadState.Error -> ERROR.id
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, loadState: LoadState) {
@@ -28,8 +29,8 @@ class LoaderStateAdapter() : LoadStateAdapter<ItemViewHolder>() {
         }
     }
 
-    private companion object {
-        private const val ERROR = 1
-        private const val PROGRESS = 0
+    enum class State(val id: Int) {
+        PROGRESS(0),
+        ERROR(1),
     }
 }

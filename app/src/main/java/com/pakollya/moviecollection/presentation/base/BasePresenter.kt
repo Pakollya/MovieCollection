@@ -8,7 +8,7 @@ abstract class BasePresenter<V : BaseContract.View?> : BaseContract.Presenter<V?
     private var mView: WeakReference<V>? = null
     var compositeDisposable: CompositeDisposable? = null
     override val view: V?
-        get() = if (mView == null) null else mView?.get()
+        get() = mView?.get()
 
     override fun attachWithView(view: V?) {
         mView = WeakReference(view)
